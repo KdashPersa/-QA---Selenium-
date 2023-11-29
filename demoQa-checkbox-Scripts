@@ -1,0 +1,45 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+public class demoQaCheckbox {
+
+    public static void main(String[] args) throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+
+        driver.navigate().to("https://demoqa.com/checkbox");
+        driver.manage().window().maximize();
+        WebElement expand=driver.findElement(By.xpath("//button[@aria-label='Toggle']"));
+        expand.click();
+
+        //opens documents
+        WebElement doc = driver.findElement(By.xpath("(//button[@class='rct-collapse rct-collapse-btn'])[3]"));
+        doc.click();
+
+        //opens workspace
+        WebElement workSpace = driver.findElement(By.xpath("(//button[@aria-label='Toggle'])[4]"));
+        workSpace.click();
+
+        //clicks onReact
+        WebElement reactClick = driver.findElement(By.xpath("//*[contains(text(),'React')]"));
+        reactClick.click();
+
+        //clicks Angular
+        WebElement angular = driver.findElement(By.xpath("//*[contains(text(),'Angular')]"));
+        angular.click();
+
+        //opens office-sub-folder
+        WebElement officeSubFolder = driver.findElement(By.xpath("(//button[@title='Toggle' and @class='rct-collapse rct-collapse-btn'])[5]"));
+        officeSubFolder.click();
+
+        //clicks on 'Classified checkbox
+        WebElement classified = driver.findElement(By.xpath("(//*[@class='rct-checkbox'])[8]")); // *Question* why does this check the entire 'office' folder even tho I specified the '[8]'
+        classified.click();
+
+        Thread.sleep(5000);
+        // driver.quit();
+
+    }
+}
