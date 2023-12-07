@@ -1,0 +1,127 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.List;
+import java.util.concurrent.ForkJoinPool;
+
+public class QaHomeworkWebElementList {
+    public static void main(String[] args) throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\fazed\\OneDrive\\Desktop\\[QA]\\chromedriver-win64\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.navigate().to("https://demoqa.com/interaction");
+        driver.manage().window().maximize();
+
+        //clicks 'Selectable' - using xPath
+        WebElement selectable = driver.findElement(By.xpath("(//*[@id='item-1'])[4]"));
+        selectable.click();
+
+        // verify user on correct page
+        String actTitle = driver.getTitle();
+        String expectedTitle = "DEMOQA";
+        //System.out.println(actTitle);
+            if (actTitle.equals(expectedTitle)){
+                System.out.println("[Page Verification Passed]");
+            }
+            else {
+                System.out.println("[Page Verification Failed]");
+            }
+
+        //prints out each element in list
+        System.out.println("================================");
+        System.out.println("Elements In List : ");
+        List< WebElement> selectables = driver.findElements(By.cssSelector("ul[id='verticalListContainer']"));
+            for(WebElement list : selectables){
+                System.out.println(list.getText()+" ");
+            }
+        System.out.println("================================");
+
+        // selects each item in the list except 4th option
+        List <WebElement> clickableList=driver.findElements(By.cssSelector("li[class='mt-2 list-group-item list-group-item-action']"));
+       //creates webelement for porta option
+        //String porta = "Porta ac consectetur ac";
+        WebElement portaBox = clickableList.get(2);
+        //Thread.sleep(2000);
+            for (WebElement clickList : clickableList){
+                clickList.click();
+                Thread.sleep(1000);
+                if (clickList.equals(portaBox)){
+                    break;
+                }
+            }
+
+            // checks if 'Porta' is selected or not
+        WebElement portaOption = driver.findElement(By.xpath("//li[contains(@class,'list-group-item') and contains(text(),'Porta ac consectetur ac')]"));
+        boolean portaSelStatus = portaOption.isSelected();
+        System.out.println("Porta 'isSelected' Status : "+ portaSelStatus);
+
+        Thread.sleep(3000);
+
+        //un-clicks all option but then clicks 'Porta' (since it was not clicked before)
+        for (WebElement unClickList : clickableList){
+            unClickList.click();
+        }
+
+        Thread.sleep(3000);
+
+        //unselect Porta
+        portaOption.click();
+
+        // selects Dap & Porta
+        WebElement dap = driver.findElement(By.xpath("//li[contains(@class, 'list-group-item') and contains(text(), 'Dapibus ac facilisis in')]"));
+
+        for (WebElement lightShow1 : clickableList){
+            if (lightShow1.equals(dap)){
+                lightShow1.click();
+            }
+            if (lightShow1.equals(portaOption)){
+                lightShow1.click();
+            }
+        }
+
+    // un selects Dap & Porta
+        dap.click();
+        portaOption.click();
+
+    // selects Cras & Morbi
+        WebElement crasOption = driver.findElement(By.xpath("//li[contains(@class, 'list-group-item') and contains(text(), 'Cras justo odio')]"));
+        WebElement morbiOption = driver.findElement(By.xpath("//li[contains(@class, 'list-group-item') and contains(text(), 'Morbi leo risus')]"));
+
+            for (WebElement lightShow2 : clickableList){
+                if (lightShow2.equals(crasOption)){
+                    lightShow2.click();
+                }
+                if (lightShow2.equals(morbiOption)){
+                    lightShow2.click();
+                }
+
+            }
+
+    //un selects crass & morbi
+        crasOption.click();
+        morbiOption.click();
+
+    Thread.sleep(3000);
+
+    // selects everything in list
+        for (WebElement lightShowFinal : clickableList){
+            lightShowFinal.click();
+        }
+
+    // unselects all from list
+        for (WebElement blackout : clickableList){
+            blackout.click();
+        }
+
+
+        Thread.sleep(5000);
+        driver.quit();
+
+    // for fun sout
+        System.out.println("================================");
+        System.out.println("Hope You Enjoyed The Light Show");
+        System.out.println("================================");
+
+    }
+}
