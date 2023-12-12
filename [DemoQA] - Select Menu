@@ -1,0 +1,104 @@
+import org.checkerframework.checker.units.qual.C;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import java.time.Duration;
+
+public class selectMenusFINAL {
+    public static void main(String[] args) throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\fazed\\OneDrive\\Desktop\\[QA]\\chromedriver-win64\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+
+        //navigates to demoQa 'select menu'
+        driver.navigate().to("https://demoqa.com/select-menu");
+
+        //maximize page
+        driver.manage().window().maximize();
+
+        //Verifies user on correct page  (url)
+        String expectedURl = "https://demoqa.com/select-menu";
+        String actualUrl = driver.getCurrentUrl();
+
+            if (actualUrl.equals(expectedURl)){
+                System.out.println("|Test Passed -> User On Expected Page|");
+            }
+            else {
+                System.out.println("|Test Failed -> User On Unexpected Page|");
+            }
+
+
+        //Assert user on correct page ( getTitle() )
+        String pageTitle = driver.getTitle();
+        Assert.assertEquals(pageTitle,"DEMOQA");
+
+
+// clicks on 'Select value -> "select option" '
+        WebElement selectOption = driver.findElement(By.cssSelector("div[id='withOptGroup']"));
+        selectOption.click();
+
+            Thread.sleep(2000);
+
+//creates WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        //waits until 'Another root option' is visible then clicks it
+        WebElement anthRoot = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Another root option')]")));
+        anthRoot.click();
+
+// clicks on 'Select One -> "Select Title" '
+        WebElement selectOne = driver.findElement(By.xpath("(//div[@class=' css-1wa3eu0-placeholder'])[1]"));
+        selectOne.click();
+
+            Thread.sleep(2000);
+
+        //waits until ' Mr ' is visible then clicks it
+        WebElement mr = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Mr')])[1]")));
+        mr.click();
+
+// clicks on 'Old Style Select Menu' ~ using SELECT
+        Select oldStyle = new Select(driver.findElement(By.cssSelector("select[id='oldSelectMenu']")));
+        oldStyle.selectByVisibleText("Magenta");
+
+        Thread.sleep(2000);
+
+// MultiSelect dropDown
+        WebElement multiDrpDwn = driver.findElement(By.xpath("(//div[@class=' css-1hwfws3'])[3]"));
+        multiDrpDwn.click();
+
+        //Black
+        WebElement blk = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Black')])[2]")));
+        blk.click();
+
+        //Red
+        WebElement red = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Red')])[2]")));
+        red.click();
+
+        Thread.sleep(2000);
+
+        //Blue
+        WebElement blue = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Blue')])[2]")));
+        blue.click();
+
+        //Green
+        WebElement green = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[contains(text(),'Green')])[2]")));
+        green.click();
+
+        Thread.sleep(2000);
+
+// Standard Multi-Select ~ using SELECT
+        Select cars = new Select(driver.findElement(By.id("cars")));
+        cars.selectByVisibleText("Audi");
+        cars.selectByVisibleText("Saab");
+
+//Driver Quit
+        Thread.sleep(7000);
+        System.out.println("|driver closed|");
+        driver.quit();
+
+    }
+}
