@@ -1,0 +1,316 @@
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+
+public class LoginPlusOthersLUMA {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\fazed\\OneDrive\\Desktop\\[QA]\\chromedriver-win64\\chromedriver.exe");
+        //WebDriver driver = new FirefoxDriver();
+        WebDriver driver =new ChromeDriver();
+        String basePage = "https://magento.softwaretestingboard.com/";
+        driver.get(basePage);
+        driver.manage().window().maximize();
+/*
+
+// Create Account      used once
+        WebElement createAcct = driver.findElement(By.linkText("Create an Account"));
+        createAcct.click();
+
+        //first name
+        WebElement fname = driver.findElement(By.cssSelector("input[id='firstname']"));
+        fname.sendKeys("Brisk");
+
+        Thread.sleep(1000);
+
+        //last name
+        WebElement lname = driver.findElement(By.cssSelector("input[id='lastname']"));
+        lname.sendKeys("Lemonade");
+
+        Thread.sleep(1000);
+
+        //email
+        WebElement email = driver.findElement(By.cssSelector("input[id='email_address']"));
+        email.sendKeys("IcedTea@greatestdrink.ever");
+
+        Thread.sleep(1000);
+
+        //password
+        WebElement password = driver.findElement(By.cssSelector("input[id='password']"));
+        password.sendKeys("Password1");
+
+        Thread.sleep(1000);
+
+        //passwordConf
+        WebElement conPass = driver.findElement(By.cssSelector("input[id='password-confirmation']"));
+        conPass.sendKeys("Password1");
+
+        Thread.sleep(1000);
+
+        //create account btn
+        WebElement cAclick = driver.findElement(By.cssSelector("button[title=\"Create an Account\"]"));
+        cAclick.click();
+
+*/
+
+//Sign in
+        //clicks sign in
+        WebElement signIn = driver.findElement(By.linkText("Sign In"));
+        signIn.click();
+
+        //email
+        WebElement email1 = driver.findElement(By.cssSelector("input[id='email']"));
+        email1.sendKeys("IcedTea@greatestdrink.ever");
+
+        Thread.sleep(1000);
+
+        //password
+        WebElement pass1= driver.findElement(By.cssSelector("input[type='password']"));
+        pass1.sendKeys("Password1");
+
+        Thread.sleep(1000);
+
+        //sign in btn
+        WebElement signInClk = driver.findElement(By.cssSelector("button[id='send2']"));
+        signInClk.click();
+
+        Thread.sleep(4000);
+
+//Account
+
+    //main page -> my account
+        //clicks dropdown
+        WebElement menuClk = driver.findElement(By.cssSelector("button[class='action switch']"));
+        menuClk.click();
+
+        Thread.sleep(2000);
+
+        //clicks 'My Account'
+        WebElement myAccount = driver.findElement(By.linkText("My Account"));
+        myAccount.click();
+
+
+    //contact info print
+        //contact info header
+        System.out.println("|Name & Email|");
+        WebElement contactInfo = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[1]/div[4]/div[2]/div/div[1]/p"));
+        System.out.println(contactInfo.getText());
+
+        Thread.sleep(4000);
+
+//back to main page
+        WebElement logoHomePage = driver.findElement(By.cssSelector("a[class='logo']"));
+        logoHomePage.click();
+
+        Thread.sleep(2000);
+
+//jump rope
+
+    //gear mouse over -> Fitness Equipment
+            // calls action class
+        Actions action = new Actions(driver);
+
+        //gear mouse over
+        WebElement gear = driver.findElement(By.cssSelector("a[id='ui-id-6']"));
+
+        action.moveToElement(gear).build().perform();
+
+        //clicks 'Fitness Equipment'
+        //wait for Fitness Equipment to be visible
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        WebElement fNE = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='https://magento.softwaretestingboard.com/gear/fitness-equipment.html']")));
+
+        Thread.sleep(1000);
+        //hover 'Fitness Equipment'
+        action.moveToElement(fNE).build().perform();
+        Thread.sleep(1000);
+
+        //clicks 'Fitness Equipment'
+        action.click().build().perform();
+
+        Thread.sleep(1000);
+
+    //search for 'jump'
+
+        WebElement search = driver.findElement(By.cssSelector("input[id='search']"));
+        Thread.sleep(1000);
+        search.sendKeys("jump");
+        Thread.sleep(1000);
+        search.sendKeys(Keys.ENTER);
+        Thread.sleep(2000);
+
+        //selects 'jump rope'
+        WebElement jrope = driver.findElement(By.cssSelector("div[class='product-item-info']"));
+        jrope.click();
+
+        Thread.sleep(3000);
+
+        //adds jump rope to cart
+        WebElement rope2Cart = driver.findElement(By.cssSelector("button[id='product-addtocart-button']"));
+        rope2Cart.click();
+
+        Thread.sleep(1000);
+
+       // System.out.println("test");
+
+        //scroll to top of page
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        //js.executeScript("window.scrollTo(0,0);");
+
+        Thread.sleep(1000);
+
+        //goes to cart
+        WebElement jumpCart = driver.findElement(By.cssSelector("a[href='https://magento.softwaretestingboard.com/checkout/cart/']"));
+        jumpCart.click();
+
+        Thread.sleep(4000);
+
+        //gets current 'qty'
+            WebElement qty = driver.findElement(By.xpath("//input[@type='number']"));
+            //gets current qty
+            String qtyText = qty.getAttribute("data-item-qty");
+                System.out.println("|Current Quantity| -> "+qtyText);
+
+        //makes sure 'qty' is 1
+        if (!qtyText.equalsIgnoreCase("1")){
+            Actions atyAction = new Actions(driver);
+            qty.click();
+            Thread.sleep(1000);
+            atyAction.keyDown(qty,Keys.CONTROL)
+                    .sendKeys("a")
+                    .keyUp(Keys.CONTROL)
+                    .sendKeys("1")
+                    .build()
+                    .perform();
+            Thread.sleep(1000);
+
+            System.out.println("**|Updating Quantity|**");
+
+        //clicks update button
+            WebElement upBtn = driver.findElement(By.cssSelector("button[title='Update']"));
+            upBtn.click();
+
+            //Thread.sleep(1000);
+
+        }
+
+            Thread.sleep(1000);
+
+            // work on this part , not updating , code works but not displaying correct quantity 
+/*
+
+        // prints out new quality
+        WebElement updatedQTY = driver.findElement(By.xpath("//input[@type='number']"));
+        String updQtyText = updatedQTY.getAttribute("data-item-qty");
+        System.out.println("|Updated Quantity| -> " + updQtyText);
+*/
+
+
+//Proceed to checkout
+
+        //goes to cart
+            WebElement proceedToCart = driver.findElement(By.cssSelector("button[id='top-cart-btn-checkout']"));
+            proceedToCart.click();
+            Thread.sleep(3000);
+
+
+/*                  // creates shipping address - used once
+
+            // company
+        WebElement company = driver.findElement(By.xpath("(//input[@class='input-text'])[5]"));
+        company.sendKeys("Beverage");
+        Thread.sleep(1000);
+
+
+            // street address 1
+        WebElement strAdd = driver.findElement(By.xpath("(//input[@class='input-text'])[6]"));
+        strAdd.sendKeys("123 fake street");
+        Thread.sleep(1000);
+            //street2
+        WebElement strtadd2 = driver.findElement(By.xpath("(//input[@class='input-text'])[7]"));
+        strtadd2.sendKeys("456 waller ave ");
+        Thread.sleep(1000);
+            //street3
+        WebElement strAdd3 = driver.findElement(By.xpath("(//input[@class='input-text'])[8]"));
+        strAdd3.sendKeys("Zimbabway");
+        Thread.sleep(1000);
+            //city
+        WebElement city = driver.findElement(By.xpath("(//input[@class='input-text'])[9]"));
+        city.sendKeys("Queens");
+        Thread.sleep(2000);
+
+        //scrolls down
+        js.executeScript("window.scrollBy(0,600);");
+
+        Thread.sleep(2000);
+
+
+        //SELECT - state // province
+        Select state = new Select(driver.findElement(By.xpath("//select[@class='select']")));
+        Thread.sleep(1000);
+
+        state.selectByVisibleText("New York");
+
+        Thread.sleep(1000);
+
+        //zipcode
+        WebElement zip = driver.findElement(By.xpath("(//input[@class='input-text'])[11]"));
+        zip.sendKeys("11111");
+        Thread.sleep(1000);
+
+        //phone
+        WebElement phone = driver.findElement(By.xpath("(//input[@class='input-text'])[12]"));
+        phone.sendKeys("1236549870");
+        Thread.sleep(2000);
+*/
+
+        //shipping
+        Thread.sleep(2000);
+        WebElement shipping = driver.findElement(By.xpath("(//input[@class='radio'])[2]"));
+        shipping.click();
+        Thread.sleep(3000);
+
+
+//'clicks 'Next' btn
+        WebElement nxt = driver.findElement(By.xpath("//button[@class='button action continue primary']"));
+        nxt.click();
+        Thread.sleep(4000);
+
+    //'place order btn'
+        WebElement placeOrder = driver.findElement(By.xpath("//button[@title='Place Order']"));
+        placeOrder.click();
+
+        Thread.sleep(2000);
+
+//Purchase confo
+
+        //thankyou
+        WebElement ty = driver.findElement(By.xpath("//span[@class='base']"));
+        System.out.println("***|"+ty.getText()+"|***");
+
+        Thread.sleep(1000);
+
+        //order number
+        WebElement orderNum = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[3]/div/div[3]/p[1]"));
+        System.out.println("****|"+orderNum.getText()+"|****");
+        Thread.sleep(1000);
+
+
+//TearDown
+        Thread.sleep(3000);
+        driver.quit();
+
+
+
+    }
+
+
+}
